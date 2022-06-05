@@ -1,16 +1,17 @@
 from django.shortcuts import render
 
 # Create your views here.
-
+import requests
 import urllib.request
 import json
 
 def weather(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         city = request.POST['city']
 
-        source = urllib.request.urlopen('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&appid=<98cd4ff499ecc5c41ec2878673fc2efc>').read()
-        data_list = json.loads(source)
+        source = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid=98cd4ff499ecc5c41ec2878673fc2efc'
+        data_list = requests.get(source).json()
+    
 
         data = {
             "country_code": str(data_list['sys']['country']),
@@ -29,3 +30,9 @@ def weather(request):
         data = {}
 
     return render(request, "home.html", data)
+
+
+    #98cd4ff499ecc5c41ec2878673fc2efc
+    
+   
+        
